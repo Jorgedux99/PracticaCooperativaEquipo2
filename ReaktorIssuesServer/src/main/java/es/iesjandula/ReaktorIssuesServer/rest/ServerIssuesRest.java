@@ -97,19 +97,33 @@ public class ServerIssuesRest {
 		}
 	}
 	
+	
+	
 	@RequestMapping(method = RequestMethod.PUT, value = "/cancel", consumes = "multipart/form-data")
-	public ResponseEntity<?> nuevaIncidencia(@RequestParam(required = true) long id)
+	public ResponseEntity<?> cancelarIncidencia(@RequestParam(required = true) long id)
 	{
 		try 
 		{
+			Optional<IncidenciaTIC> incidenciaId = this.issuesRepository.findById(id);
+			
+			if (incidenciaId.isPresent()) {
+				IncidenciaTIC incidencia = incidenciaId.get();
+				incidencia.setEstado("CANCELADA");
+				
+				IncidenciaTIC incidenciaActualizada = this.issuesRepository.save(incidencia);
+				
+				return ResponseEntity.ok(incidenciaActualizada);
+			} else {
+				return ResponseEntity.status(404).body("No se encontró la incidencia con el ID: " + id);
+			}
 			
 			
 		}catch(Exception exception) 
 		{
-			
+			log.error("Error al cancelar la incidencia: ", exception.getMessage());
+			return ResponseEntity.status(500).body("Error al cancelar la incidencia");
 			
 		}
-		return null;
 	}
 	
 }
