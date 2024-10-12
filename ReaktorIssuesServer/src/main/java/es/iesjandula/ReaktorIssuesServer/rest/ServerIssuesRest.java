@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTIC;
 import es.iesjandula.ReaktorIssuesServer.repository.IssuesRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/issues")
+@RequiredArgsConstructor
 @Slf4j
 public class ServerIssuesRest {
 	
@@ -20,16 +23,20 @@ public class ServerIssuesRest {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/new", consumes = "multipart/form-data")
-	public ResponseEntity<?> nuevaIncidencia(@RequestParam(required = true) long id,
-											@RequestParam(required = true) String aula,
+	public ResponseEntity<?> nuevaIncidencia(@RequestParam(required = true) String aula,
 											@RequestParam(required = true) String profesor,
 											@RequestParam(required = true) String fecha,
 											@RequestParam(required = true) String descripcion,
 											@RequestParam(required = true) String estado)
+
 	{
 		try 
 		{
+			IncidenciaTIC incidencia = new IncidenciaTIC(aula,profesor,fecha,descripcion,estado);
 			
+			IncidenciaTIC incidenciaGuardada = this.issuesRepository.save(incidencia);
+			
+			return ResponseEntity.ok().body(incidenciaGuardada);
 			
 		}catch(Exception exception) 
 		{
