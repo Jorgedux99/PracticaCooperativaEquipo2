@@ -34,6 +34,78 @@ public class IncidenciaTIC {
 		this.descripcion = descripcion;
 		this.estado = estado;
 	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+
+	public String getAula() {
+		return aula;
+	}
+
+
+
+	public void setAula(String aula) {
+		this.aula = aula;
+	}
+
+
+
+	public String getProfesor() {
+		return profesor;
+	}
+
+
+
+	public void setProfesor(String profesor) {
+		this.profesor = profesor;
+	}
+
+
+
+	public String getFecha() {
+		return fecha;
+	}
+
+
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	
 	
 	
