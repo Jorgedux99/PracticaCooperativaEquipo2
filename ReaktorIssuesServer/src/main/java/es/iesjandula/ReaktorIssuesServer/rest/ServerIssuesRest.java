@@ -56,16 +56,22 @@ public class ServerIssuesRest {
 	@RequestMapping(method = RequestMethod.GET, value = "/show", consumes = "multipart/form-data")
 	public ResponseEntity<?> mostrarIncidencias()
 	{
-		try 
-		{
-			
-			
-		}catch(Exception exception) 
-		{
-			
-			
-		}
-		return null;
+		try {
+	        
+	        List<IncidenciaTIC> incidencias = this.issuesRepository.findAll();
+	        
+	        
+	        if (incidencias.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay incidencias disponibles.");
+	        }
+	        
+	        
+	        return ResponseEntity.ok().body(incidencias);
+	    } catch (Exception exception) {
+	        
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Ocurrió un error al obtener las incidencias: " + exception.getMessage());
+	    }
 	}
 	
 	
