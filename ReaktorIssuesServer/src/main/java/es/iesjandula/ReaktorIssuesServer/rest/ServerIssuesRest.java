@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/issues")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:64309")
 public class ServerIssuesRest {
 	
 	private static final Logger log = LoggerFactory.getLogger(ServerIssuesRest.class);

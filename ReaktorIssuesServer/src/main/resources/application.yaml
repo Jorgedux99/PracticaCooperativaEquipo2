@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/serverissues
     username: root
-    password: 123456Aa-
+    password: admin
   hikari:
     connection-timeout: 60000
     maximum-pool-size: 5
