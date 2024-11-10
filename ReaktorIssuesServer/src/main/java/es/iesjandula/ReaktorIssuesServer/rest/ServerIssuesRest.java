@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/issues")
 @RequiredArgsConstructor
-@Slf4j
+@CrossOrigin(origins = "http://localhost:64309")
 public class ServerIssuesRest {
 	
 	private static final Logger log = LoggerFactory.getLogger(ServerIssuesRest.class);
@@ -30,29 +32,16 @@ public class ServerIssuesRest {
 	private IssuesRepository issuesRepository;	
 	
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/new", consumes = "multipart/form-data")
-	public ResponseEntity<?> nuevaIncidencia(@RequestParam(required = true) String aula,
-											@RequestParam(required = true) String profesor,
-											@RequestParam(required = true) String fecha,
-											@RequestParam(required = true) String descripcion,
-											@RequestParam(required = true) String estado)
-
-	{
-		try 
-		{
-			IncidenciaTIC incidencia = new IncidenciaTIC(aula,profesor,fecha,descripcion,estado);
-			
-			IncidenciaTIC incidenciaGuardada = this.issuesRepository.save(incidencia);
-			
-			return ResponseEntity.ok().body(incidenciaGuardada);
-			
-		}catch(Exception exception) 
-		{
-			
-			
-		}
-		return null;
+	@RequestMapping(method = RequestMethod.POST, value = "/new", consumes = "application/json")
+	public ResponseEntity<?> nuevaIncidencia(@RequestBody IncidenciaTIC incidencia) {
+	    try {
+	        IncidenciaTIC incidenciaGuardada = this.issuesRepository.save(incidencia);
+	        return ResponseEntity.ok().body(incidenciaGuardada);
+	    } catch (Exception exception) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la incidencia.");
+	    }
 	}
+
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/show")
